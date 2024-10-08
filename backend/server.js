@@ -1,15 +1,19 @@
-import express from "express";
+import dotenv from "dotenv";
+import { app } from "./app.js";
+import connectDB from "./DB/index.js";
 
-const app = express();
-const PORT = ProcessingInstruction.env.PORT || 5000;
+dotenv.config();
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-app.get("/", (req, res) => {
-    
+connectDB()
+.then(() => {
+    app.on("error", (error) => {
+console.log("ERRR", error);
+throw new error;
+    })
+    app.listen(process.env.PORT || 5000, () => {
+        console.log(`server is running at port ${process.env.PORT || 5000}`)
+    })  
+})
+.catch((error) => {
+    console.log("MONGODB CONNECTION FIELD !!!", error)
 });
-
-
-app.listen(3000, () => console.log("app is listening at port 3000"));
