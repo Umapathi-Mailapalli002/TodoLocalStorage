@@ -19,13 +19,13 @@ const getAllTodos = async (req, res) => {
 };
 
 const addTodo = async (req, res) => {
-  const content = req.body.content;
+  const {content} = req.body;
   try {
     if (!content) {
       return res.status(400).json({ error: "Content cannot be empty" });
     }
     const todo = await Todo.create({
-      content: content,
+      content
     });
 
     return res.status(201).json({
@@ -80,7 +80,7 @@ const deleteTodo = async (req, res) => {
     }
     return res.status(200).json({ msg: "Todo successfully deleted", data: deletedTodo });
   } catch (error) {
-    console.log("error on deleting  todo", error);
+    console.log("error on deleting todo", error);
     return res
       .status(500)
       .json({ error: "An error occurred while deleting the todo" });
